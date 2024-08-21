@@ -13,17 +13,21 @@ public class NmapParserUtil {
         String[] lines = output.split("\n");
 
         Pattern hostPattern = Pattern.compile("Nmap scan report for (.+) \\((.+)\\)");
+        Pattern ipPattern = Pattern.compile("Nmap scan report for (.+)");
         Pattern latencyPattern = Pattern.compile("Host is up \\((.+) latency\\)");
         Pattern portPattern = Pattern.compile("(\\d+/tcp)\\s+(\\w+)\\s+(\\w+)");
 
         for (String line : lines) {
             Matcher hostMatcher = hostPattern.matcher(line);
+            Matcher ipMatcher = ipPattern.matcher(line);
             Matcher latencyMatcher = latencyPattern.matcher(line);
             Matcher portMatcher = portPattern.matcher(line);
 
             if (hostMatcher.find()) {
                 result.setHost(hostMatcher.group(1));
                 result.setIpAddress(hostMatcher.group(2));
+            } else if (ipMatcher.find()) {
+                result.setIpAddress(ipMatcher.group(1));
             }
 
             if (latencyMatcher.find()) {

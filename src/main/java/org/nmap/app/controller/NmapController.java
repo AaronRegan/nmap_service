@@ -19,17 +19,17 @@ public class NmapController {
     private NmapService nmapService;
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Void> handle(final NoScanHistoryException ex) {
+    public ResponseEntity<String> handle(final NoScanHistoryException ex) {
         return ResponseEntity
                 .badRequest()
-                .build();
+                .body(ex.getMessage());
     }
 
     @ExceptionHandler(InvalidIpAddressException.class)
-    public ResponseEntity<Void> handle(final InvalidIpAddressException ex) {
+    public ResponseEntity<String> handle(final InvalidIpAddressException ex) {
         return ResponseEntity
                 .badRequest()
-                .build();
+                .body(ex.getMessage());
     }
 
     @PostMapping("/initiate")

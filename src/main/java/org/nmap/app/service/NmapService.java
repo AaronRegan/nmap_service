@@ -1,5 +1,6 @@
 package org.nmap.app.service;
 
+import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.InetAddressValidator;
 import org.nmap.app.exception.InvalidIpAddressException;
 import org.nmap.app.exception.NoScanHistoryException;
@@ -106,7 +107,9 @@ public class NmapService {
     }
 
     private boolean isValidIpOrHostname(String ipAddressOrHostname) {
-        InetAddressValidator validator = InetAddressValidator.getInstance();
-        return validator.isValid(ipAddressOrHostname);
+        InetAddressValidator inetAddressValidator = InetAddressValidator.getInstance();
+        DomainValidator domainValidator = DomainValidator.getInstance();
+
+        return inetAddressValidator.isValid(ipAddressOrHostname) || domainValidator.isValid(ipAddressOrHostname);
     }
 }
